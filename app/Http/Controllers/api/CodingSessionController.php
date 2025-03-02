@@ -45,6 +45,7 @@ class CodingSessionController extends Controller
         ->first();
         
         if (!$session) {
+
             return response()->json(['error' => 'No active session found'], 400);
             # code...
         }
@@ -70,7 +71,8 @@ class CodingSessionController extends Controller
               'tech_coins' => $techCoinsEarned,
               'duration' => $durationInMinutes . ' minutes',
           ]);
-    } public function getTechCoins(Request $request)
+    } 
+    public function getTechCoins(Request $request)
     {
         $user = JWTAuth::parseToken()->authenticate();
         $totalCoins = CodingSession::where('user_id', $user->id)->sum('tech_coins');
