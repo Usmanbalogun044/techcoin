@@ -42,7 +42,7 @@
                                 <a href="javascript:;" class="dropdown-item border-radius-md">
                                     Author
                                 </a>
-                                <a href="javascript:;" class="dropdown-item border-radius-md" href="{{route('login.view')}}">
+                                <a href="javascript:;" class="dropdown-item border-radius-md" href="{{route('login')}}">
                                     Sign In
                                 </a>
                             </div>
