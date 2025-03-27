@@ -14,7 +14,7 @@
 <body class="null">
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-3">
         <div class="container">
-            <a class="navbar-brand" href="javascript:;" rel="tooltip" title="Designed and Coded by Creative Tim" data-placement="bottom">
+            <a class="navbar-brand" href="javascript:;" rel="tooltip" title="" data-placement="bottom">
                 Tech Coin
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,7 @@
                                 <a href="javascript:;" class="dropdown-item border-radius-md">
                                     Author
                                 </a>
-                                <a href="javascript:;" class="dropdown-item border-radius-md">
+                                <a href="javascript:;" class="dropdown-item border-radius-md" href="{{route('login.view')}}">
                                     Sign In
                                 </a>
                             </div>
@@ -441,7 +441,7 @@
                     </li>
                     <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0 mt-2 mt-lg-0">
 
-                        <a href="javascript:;" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1 mt-2 mt-md-0">Free Download</a></li>
+                        <a href="{{route('reg.view')}}" class="btn btn-sm  bg-gradient-primary  btn-round mb-0 me-1 mt-2 mt-md-0">start earning</a></li>
                 </ul>
             </div>
         </div>
