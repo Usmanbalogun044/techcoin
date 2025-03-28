@@ -52,22 +52,23 @@ Route::middleware('auth')->group(function(){
         $response = Http::asForm()->post('https://wakatime.com/oauth/token', [
             'client_id' => env('WAKATIME_CLIENT_ID'),
             'client_secret' => env('WAKATIME_CLIENT_SECRET'),
-            'redirect_uri' => route('wakatime.callback'),
+            'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
             'grant_type' => 'authorization_code',
             'code' => $request->code,
         ]);
     
         $data = $response->json();
+return response()->Json($data);
     
-        if (!isset($data['access_token'])) {
-            return redirect('/')->with('error', 'Failed to get access token.');
-        }
+        // if (!isset($data['access_token'])) {
+        //     return redirect('/')->with('error', 'Failed to get access token.');
+        // }
     
-        // Save the token in the database
-        $user = Auth::user();
-        $user->wakatime_token = $data['access_token'];
-        $user->save();
+        // // Save the token in the database
+        // $user = Auth::user();
+        // $user->wakatime_token = $data['access_token'];
+        // $user->save();
     
-        return redirect('/home')->with('success', 'WakaTime connected successfully!');
+        // return redirect('/home')->with('success', 'WakaTime connected successfully!');
     })->name('wakatime.callback');
 });
