@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\wakatimeController;
 use App\Models\wallet;
+use Illuminate\Container\Attributes\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
@@ -54,7 +55,8 @@ Route::middleware('auth')->group(function(){
             'grant_type' => 'authorization_code',
             'code' => $code,
         ]);
-        dd($reresponse);
+        Log::info($response);
+      
         return response()->Json($response);
 
         // $data = $response->json();
