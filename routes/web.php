@@ -27,15 +27,15 @@ Route::middleware('auth')->group(function(){
     Route::get('/home', function(){
         return view('dashboard.home');
     })->name('home.view');
-    
+
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
     Route::post('/wakatimekeyset',[wakatimeController::class,'savewakatimekey'])->name('wakakey');
 
 
     Route::get('/auth/wakatime', function () {
         $params = [
-            'client_id' => 'xQgTiP9T1BsOxH2VSLoKraFS',
-            'redirect_uri' =>route('wakatime.callback'),
+            'client_id' => env('WAKATIME_CLIENT_ID'),
+            'redirect_uri' =>env('WAKATIME_REDIRECT_URI'),
             'response_type' => 'code',
             'scope' => 'email,read_logged_time'
         ];
