@@ -45,7 +45,7 @@ Route::middleware('auth')->group(function(){
         //     dd($response); //to examine the full response.
         // }
         $user=Auth::user();
-    
+      
         return view('dashboard.home', compact('user'));
     })->name('home.view');
 
