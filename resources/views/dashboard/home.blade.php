@@ -1,6 +1,4 @@
 
-
-
    @extends('app')
    @section('content')
     <div class="flex items-center gap-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg w-fit">

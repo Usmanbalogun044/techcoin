@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/home', function(){
         return view('dashboard.home');
     })->name('home.view');
+    
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
     Route::post('/wakatimekeyset',[wakatimeController::class,'savewakatimekey'])->name('wakakey');
 

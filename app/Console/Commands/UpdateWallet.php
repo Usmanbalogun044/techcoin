@@ -28,35 +28,35 @@ class UpdateWallet extends Command
      */
     public function handle()
     {
-        $users = User::whereNotNull('wakatime_key')->get();
+        // $users = User::whereNotNull('wakatime_key')->get();
 
-        foreach ($users as $user) {
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $user->wakatime_key,
-            ])->get('https://wakatime.com/api/v1/users/current/summaries', [
-                'range' => 'Today',
-            ]);
+        // foreach ($users as $user) {
+        //     $response = Http::withHeaders([
+        //         'Authorization' => 'Bearer ' . $user->wakatime_key,
+        //     ])->get('https://wakatime.com/api/v1/users/current/summaries', [
+        //         'range' => 'Today',
+        //     ]);
 
-            if ($response->failed()) {
-                continue;
-            }
+        //     if ($response->failed()) {
+        //         continue;
+        //     }
 
-            $data = $response->json();
-            $totalSeconds = 0;
+        //     $data = $response->json();
+        //     $totalSeconds = 0;
 
-            foreach ($data['data'] as $day) {
-                $totalSeconds += $day['grand_total']['total_seconds'];
-            }
+        //     foreach ($data['data'] as $day) {
+        //         $totalSeconds += $day['grand_total']['total_seconds'];
+        //     }
 
-            // Convert seconds to $TCH (1 day = 1 $TCH, so 1 sec = ~0.00001157 $TCH)
-            $earnedTCH = $totalSeconds * 0.00001157;
+        //     // Convert seconds to $TCH (1 day = 1 $TCH, so 1 sec = ~0.00001157 $TCH)
+        //     $earnedTCH = $totalSeconds * 0.00001157;
 
-            // Update wallet balance
-            $wallet = wallet::firstOrCreate(['user_id' => $user->id]);
-            $wallet->balance = $earnedTCH;
-            $wallet->save();
-        }
+        //     // Update wallet balance
+        //     $wallet = wallet::firstOrCreate(['user_id' => $user->id]);
+        //     $wallet->balance = $earnedTCH;
+        //     $wallet->save();
+        // }
 
-        $this->info('Wallets updated successfully!');
+        // $this->info('Wallets updated successfully!');
     }
 }
