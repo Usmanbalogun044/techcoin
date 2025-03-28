@@ -49,8 +49,7 @@ class UpdateWallet extends Command
 
             if ($response->successful()) {
                 $data = $response->json();
-                $totalMinutes = $data['data'][0]['grand_total']['total_seconds'] / 60; // Convert seconds to minutes
-
+                $totalMinutes = floor($data['data'][0]['grand_total']['total_seconds'] / 60);
                 if ($totalMinutes > $user->last_coding_minutes) {
                     // Calculate newly earned $tech
                     $earnedMinutes = $totalMinutes - $user->last_coding_minutes;
