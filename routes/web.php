@@ -44,8 +44,9 @@ Route::middleware('auth')->group(function(){
         // } else {
         //     dd($response); //to examine the full response.
         // }
+        $user=Auth::user();
     
-        return view('dashboard.home');
+        return view('dashboard.home', compact('user'));
     })->name('home.view');
 
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
