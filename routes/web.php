@@ -25,8 +25,6 @@ Route::post('/login',[RegisteredUserController::class,'login'])->name('user.logi
 
 Route::middleware('auth')->group(function(){
     Route::get('/home', function(){
-        $user=Auth::user();
-    
         return view('dashboard.home');
     })->name('home.view');
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
@@ -35,7 +33,7 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/auth/wakatime', function () {
         $params = [
-            'client_id' => env('WAKATIME_CLIENT_ID'),
+            'client_id' => 'xQgTiP9T1BsOxH2VSLoKraFS',
             'redirect_uri' =>route('wakatime.callback'),
             'response_type' => 'code',
             'scope' => 'email,read_logged_time'
@@ -53,7 +51,7 @@ Route::middleware('auth')->group(function(){
         $response = Http::asForm()->post('https://wakatime.com/oauth/token', [
             'client_id' => env('WAKATIME_CLIENT_ID'),
             'client_secret' => env('WAKATIME_CLIENT_SECRET'),
-            'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
+            'redirect_uri' => route('wakatime.callback'),
             'grant_type' => 'authorization_code',
             'code' => $request->code,
         ]);
@@ -69,6 +67,6 @@ Route::middleware('auth')->group(function(){
         $user->wakatime_token = $data['access_token'];
         $user->save();
     
-        return redirect('/dashboard')->with('success', 'WakaTime connected successfully!');
+        return redirect('/home')->with('success', 'WakaTime connected successfully!');
     })->name('wakatime.callback');
 });
