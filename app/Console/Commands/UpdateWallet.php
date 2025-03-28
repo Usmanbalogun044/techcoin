@@ -32,43 +32,41 @@ class UpdateWallet extends Command
         $users = User::whereNotNull('wakatime_key')->get();
 
         foreach ($users as $user) {
-            // Check if user has a wallet, if not, create one
-            if (!$user->wallet) {
-                Wallet::create([
-                    'user_id' => $user->id,
-                    'balance' => 0.00,
-                ]);
-            }
-        
+            
+        if (!$user->wallet) {
+            Wallet::create([
+                'user_id' => $user->id,
+                'balance' => 0.00,
+            ]);
+        }
             $apiKey = $user->wakatime_key;
             $base64ApiKey = base64_encode($apiKey);
-        
+
             // Fetch coding stats from WakaTime
             $response = Http::withHeaders([
                 'Authorization' => 'Basic ' . $base64ApiKey,
             ])->get('https://api.wakatime.com/api/v1/users/current/summaries?range=Today');
-        
+
             if ($response->successful()) {
                 $data = $response->json();
                 $totalMinutes = $data['data'][0]['grand_total']['total_seconds'] / 60; // Convert seconds to minutes
-        
+
                 if ($totalMinutes > $user->last_coding_minutes) {
                     // Calculate newly earned $tech
                     $earnedMinutes = $totalMinutes - $user->last_coding_minutes;
                     $earnedTech = $earnedMinutes * (1 / 60); // 1 minute = 1/60 $tech
-        
+
                     // Update user wallet balance
                     $user->wallet->increment('balance', $earnedTech);
                     $user->update(['last_coding_minutes' => $totalMinutes]);
-        
+
                     Log::info("Updated $user->name: Earned $earnedTech $ tech");
                 }
             } else {
                 Log::error("Failed to fetch WakaTime stats for {$user->name}");
             }
         }
-        
+
         return Command::SUCCESS;
-        
     }
 }
