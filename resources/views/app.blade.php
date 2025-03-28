@@ -5,18 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title inertia>{{ config('app.name', 'Techcoin') }}</title>
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @routes
-        @viteReactRefresh
-        @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
-        @inertiaHead
+  
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+      
     </head>
-    <body class="font-sans antialiased">
-        @inertia
+   <body class="bg-gray-900 text-white">
+   @include('component.nav')
+   <main class="flex flex-col items-center mt-8 space-y-6">
+            @yield('content')
+    </main>
+    @include('component.bottomnav')
     </body>
 </html>

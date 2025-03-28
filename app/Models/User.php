@@ -21,6 +21,7 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'wakatime_key',
     ];
 
     /**
@@ -32,6 +33,21 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class);
+    }
+    
+    public static function boot()
+    {
+    parent::boot();
+
+    static::created(function ($user) {
+        $user->wallet()->create([
+            'balance' => 0, // Initial balance
+        ]);
+    });     
+    }
 
     /**
      * Get the attributes that should be cast.

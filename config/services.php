@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'wakatime' => [
+        'client_id' => env('WAKATIME_CLIENT_ID'),
+        'client_secret' => env('WAKATIME_CLIENT_SECRET'),
+        'redirect' => env('WAKATIME_REDIRECT_URI'),
+    ],
+    
+
 ];
