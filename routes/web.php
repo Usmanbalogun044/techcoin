@@ -33,14 +33,12 @@ Route::middleware('auth')->group(function(){
 
 
     Route::get('/auth/wakatime', function () {
-        $params = [
-            'client_id' => env('WAKATIME_CLIENT_ID'),
-            'redirect_uri' =>env('WAKATIME_REDIRECT_URI'),
-            'response_type' => 'code',
-            'scope' => 'email,read_logged_time'
-        ];
-    
-        return redirect('https://wakatime.com/oauth/authorize?' . http_build_query($params));
+        $clientId = env('WAKATIME_CLIENT_ID');
+    $redirectUri = urlencode(env('WAKATIME_REDIRECT_URI'));
+    $scope = 'email,read_logged_time';
+    $authUrl = "https://wakatime.com/oauth/authorize?client_id={$clientId}&redirect_uri={$redirectUri}&response_type=code&scope={$scope}";
+
+    return redirect($authUrl);
     })->name('wakatime.redirect');
     
     Route::get('/auth/wakatime/callback', function (Request $request) {
