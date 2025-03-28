@@ -22,6 +22,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'password',
         'wakatime_key',
+        'last_coding_minutes',
     ];
 
     /**
@@ -37,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Wallet::class);
     }
-    
+
     public static function boot()
     {
     parent::boot();

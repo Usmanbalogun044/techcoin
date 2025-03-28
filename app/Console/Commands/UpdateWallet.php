@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\wallet;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class UpdateWallet extends Command
 {
@@ -28,35 +29,37 @@ class UpdateWallet extends Command
      */
     public function handle()
     {
-        // $users = User::whereNotNull('wakatime_key')->get();
+        $users = User::whereNotNull('wakatime_key')->get();
 
-        // foreach ($users as $user) {
-        //     $response = Http::withHeaders([
-        //         'Authorization' => 'Bearer ' . $user->wakatime_key,
-        //     ])->get('https://wakatime.com/api/v1/users/current/summaries', [
-        //         'range' => 'Today',
-        //     ]);
+        foreach ($users as $user) {
+            $apiKey = $user->wakatime_key;
+            $base64ApiKey = base64_encode($apiKey);
 
-        //     if ($response->failed()) {
-        //         continue;
-        //     }
+            // Fetch coding stats from WakaTime
+            $response = Http::withHeaders([
+                'Authorization' => 'Basic ' . $base64ApiKey,
+            ])->get('https://api.wakatime.com/api/v1/users/current/summaries?range=Today');
 
-        //     $data = $response->json();
-        //     $totalSeconds = 0;
+            if ($response->successful()) {
+                $data = $response->json();
+                $totalMinutes = $data['data'][0]['grand_total']['total_seconds'] / 60; // Convert seconds to minutes
 
-        //     foreach ($data['data'] as $day) {
-        //         $totalSeconds += $day['grand_total']['total_seconds'];
-        //     }
+                if ($totalMinutes > $user->last_coding_minutes) {
+                    // Calculate newly earned $tech
+                    $earnedMinutes = $totalMinutes - $user->last_coding_minutes;
+                    $earnedTech = $earnedMinutes * (1 / 60); // 1 minute = 1/60 $tech
 
-        //     // Convert seconds to $TCH (1 day = 1 $TCH, so 1 sec = ~0.00001157 $TCH)
-        //     $earnedTCH = $totalSeconds * 0.00001157;
+                    // Update user wallet balance
+                    $user->wallet->increment('balance', $earnedTech);
+                    $user->update(['last_coding_minutes' => $totalMinutes]);
 
-        //     // Update wallet balance
-        //     $wallet = wallet::firstOrCreate(['user_id' => $user->id]);
-        //     $wallet->balance = $earnedTCH;
-        //     $wallet->save();
-        // }
+                    Log::info("Updated $user->name: Earned $earnedTech $ tech");
+                }
+            } else {
+                Log::error("Failed to fetch WakaTime stats for {$user->name}");
+            }
+        }
 
-        // $this->info('Wallets updated successfully!');
+        return Command::SUCCESS;
     }
 }

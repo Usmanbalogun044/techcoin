@@ -1,4 +1,6 @@
 
+
+
    @extends('app')
    @section('content')
     <div class="flex items-center gap-4 bg-gray-800 text-white px-6 py-3 rounded-lg shadow-lg w-fit">
@@ -13,7 +15,7 @@
 
         <div class="flex flex-col">
             <span class="text-sm text-gray-400 tracking-wide">Wallet Balance</span>
-            <p class="text-xl font-semibold"><span id="currency"> $TCH</span></p>
+            <p class="text-xl font-semibold"><span id="currency"> $TCH</span>{{auth()->user()->wallet->balance ?? 0 }}</p>
         </div>
 
         <button class="flex items-center gap-1 bg-purple-600 text-white px-5 py-2 rounded-full text-sm font-medium transition hover:bg-white hover:text-purple-600 shadow-md">

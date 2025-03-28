@@ -26,51 +26,28 @@ Route::post('/login',[RegisteredUserController::class,'login'])->name('user.logi
 
 Route::middleware('auth')->group(function(){
     Route::get('/home', function(){
+
+        // $user = auth()->user(); //get the user.
+        // $apiKey =$user->wakatime_key;
+      
+        // $base64ApiKey = base64_encode($apiKey);
+        // $response = Http::withHeaders([
+        //     'Authorization' => 'Basic ' . $base64ApiKey,
+        // ])->get('https://api.wakatime.com/api/v1/users/current/summaries?range=Today');
+        
+        // if ($response->successful()) {
+        //     $data = $response->json();
+        //     $data = $response->json();
+        //     $totalMinutes = $data['data'][0]['grand_total']['total_seconds'] / 60;
+        //     return $totalMinutes;
+        //     // ... process data ...
+        // } else {
+        //     dd($response); //to examine the full response.
+        // }
+    
         return view('dashboard.home');
     })->name('home.view');
 
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
     Route::post('/wakatimekeyset',[wakatimeController::class,'savewakatimekey'])->name('wakakey');
-
-
-    Route::get('/auth/wakatime', function () {
-        $clientId = env('WAKATIME_CLIENT_ID');
-    $redirectUri = urlencode(env('WAKATIME_REDIRECT_URI'));
-    $scope = 'email,read_logged_time';
-    $authUrl = "https://wakatime.com/oauth/authorize?client_id={$clientId}&redirect_uri={$redirectUri}&response_type=code&scope={$scope}";
-
-    return redirect($authUrl);
-    })->name('wakatime.redirect');
-    
-    Route::get('/auth/wakatime/callback', function (Request $request) {
-        if (!$request->has('code')) {
-            return redirect('/')->with('error', 'OAuth authorization failed.');
-        }
-     $code=   $request->query('code');
-        // Exchange authorization code for access token
-        $response = Http::post('https://wakatime.com/oauth/token', [
-            'client_id' => env('WAKATIME_CLIENT_ID'),
-            'client_secret' => env('WAKATIME_CLIENT_SECRET'),
-            'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-        ]);
-        // Log::info($response);
-        dd($response->status(), $response->json());
-        return response()->Json($response);
-
-        // $data = $response->json();
-
-    
-        // if (!isset($data['access_token'])) {
-        //     return redirect('/')->with('error', 'Failed to get access token.');
-        // }
-    
-        // // Save the token in the database
-        // $user = Auth::user();
-        // $user->wakatime_token = $data['access_token'];
-        // $user->save();
-    
-        // return redirect('/home')->with('success', 'WakaTime connected successfully!');
-    })->name('wakatime.callback');
 });
