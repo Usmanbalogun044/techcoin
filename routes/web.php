@@ -46,16 +46,16 @@ Route::middleware('auth')->group(function(){
             return redirect('/')->with('error', 'OAuth authorization failed.');
         }
      $code=   $request->query('code');
-     return response()->Json($code);
         // Exchange authorization code for access token
-        // $response = Http::asForm()->post('https://wakatime.com/oauth/token', [
-        //     'client_id' => env('WAKATIME_CLIENT_ID'),
-        //     'client_secret' => env('WAKATIME_CLIENT_SECRET'),
-        //     'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
-        //     'grant_type' => 'authorization_code',
-        //     'code' => $code,
-        // ]);
-    
+        $response = Http::asForm()->post('https://wakatime.com/oauth/token', [
+            'client_id' => env('WAKATIME_CLIENT_ID'),
+            'client_secret' => env('WAKATIME_CLIENT_SECRET'),
+            'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
+            'grant_type' => 'authorization_code',
+            'code' => $code,
+        ]);
+        return response()->Json($response);
+
         // $data = $response->json();
 
     
