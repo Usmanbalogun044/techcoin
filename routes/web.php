@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function(){
             'grant_type' => 'authorization_code',
             'code' => $code,
         ]);
+        dd($reresponse);
         return response()->Json($response);
 
         // $data = $response->json();
