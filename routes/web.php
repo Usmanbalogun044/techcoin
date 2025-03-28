@@ -56,7 +56,7 @@ Route::middleware('auth')->group(function(){
             'code' => $code,
         ]);
         Log::info($response);
-      
+        dd($response);
         return response()->Json($response);
 
         // $data = $response->json();
