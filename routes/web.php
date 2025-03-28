@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function(){
         }
      $code=   $request->query('code');
         // Exchange authorization code for access token
-        $response = Http::asForm()->post('https://wakatime.com/oauth/token', [
+        $response = Http::post('https://wakatime.com/oauth/token', [
             'client_id' => env('WAKATIME_CLIENT_ID'),
             'client_secret' => env('WAKATIME_CLIENT_SECRET'),
             'redirect_uri' => env('WAKATIME_REDIRECT_URI'),
