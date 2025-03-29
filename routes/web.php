@@ -26,7 +26,7 @@ Route::post('/reg',[RegisteredUserController::class,'register'])->name('user.reg
 Route::post('/login',[RegisteredUserController::class,'login'])->name('user.login');
 
 Route::middleware('auth')->group(function(){
-    Route::get('/home',[usercontroller::class,'home'])->name('home.view');
+    Route::get('/home',[wakatimeController::class,'home'])->name('home.view');
 
     Route::get('/settings',[wakatimeController::class,'settings'])->name('settings');
     Route::post('/wakatimekeyset',[wakatimeController::class,'savewakatimekey'])->name('wakakey');

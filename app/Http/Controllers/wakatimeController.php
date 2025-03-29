@@ -158,5 +158,11 @@ class wakatimeController extends Controller
     Log::error("Failed to fetch WakaTime streak for {$user->name}");
     return false;
 }
-
+public function home(){
+    $this->updatewakatime();
+     $wakatimeData  = $this->wakatimetodaydetails();
+     $streakData =$this->codingStreak();
+    $user=Auth::user();
+    return view('dashboard.home', compact(['user','wakatimeData','streakData']));
+}
 }

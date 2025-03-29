@@ -10,13 +10,9 @@ class usercontroller extends Controller
     public function home(){
         $waka= new wakatimeController;
         $waka->updatewakatime();
-    //  app(\App\Http\Controllers\WakaTimeController::class)->updateWakaTime();
-    $wakatimeData  = $waka->wakatimetodaydetails();
-    // app(\App\Http\Controllers\WakaTimeController::class)->wakatimetodaydetails();
-    $streakData =$waka->codingStreak();
-    //  app(\App\Http\Controllers\WakaTimeController::class)->codingStreak();
-
-    // return $wakatimedata;
+         $wakatimeData  = $waka->wakatimetodaydetails();
+   
+         $streakData =$waka->codingStreak();
         $user=Auth::user();
         return view('dashboard.home', compact(['user','wakatimeData','streakData']));
     }
