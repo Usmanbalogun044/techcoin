@@ -1,16 +1,20 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\WakaTimeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class usercontroller extends Controller
 {
     public function home(){
-        app(\App\Http\Controllers\WakaTimeController::class)->updateWakaTime();
-    $wakatimeData  = app(\App\Http\Controllers\WakaTimeController::class)->wakatimetodaydetails();
-    $streakData = app(\App\Http\Controllers\WakaTimeController::class)->codingStreak();
+        $waka= new wakatimeController;
+        $waka->updatewakatime();
+    //  app(\App\Http\Controllers\WakaTimeController::class)->updateWakaTime();
+    $wakatimeData  = $waka->wakatimetodaydetails();
+    // app(\App\Http\Controllers\WakaTimeController::class)->wakatimetodaydetails();
+    $streakData =$waka->codingStreak();
+    //  app(\App\Http\Controllers\WakaTimeController::class)->codingStreak();
 
     // return $wakatimedata;
         $user=Auth::user();
