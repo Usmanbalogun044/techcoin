@@ -459,8 +459,9 @@
                         <p class="lead pe-5 me-5">Code, Earn, and Innovate. The future of developer rewards is here. 
                         Track coding activity, earn $tech Coin, and unlock NFT-based achievements.</p>
                         <div class="buttons">
-                            <button type="button" class="btn bg-gradient-primary mt-4">Start Earning</button>
-        
+                    <a href="{{route('reg.view')}}" >
+                       <button type="button" class="btn bg-gradient-primary mt-4">Start Earning</button>
+                     </a>
                         </div>
                     </div>
                 </div>

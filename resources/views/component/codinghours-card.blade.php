@@ -6,16 +6,26 @@
     </svg>
     
     <!-- Title -->
-    <h2 class="text-lg font-semibold">Total Coding Hours</h2>
+    <h2 class="text-lg font-semibold">Total Coding Hours for Today</h2>
     
-    <!-- Total Hours -->
-    <p class="text-xl font-bold mt-2">54 hrs</p>
-    
-    <!-- Weekly Progress Bar -->
-    <div class="w-full bg-gray-700 rounded-full h-2.5 mt-4">
-        <div class="bg-blue-500 h-2.5 rounded-full" style="width: 65%;"></div>
-    </div>
-    
-    <!-- Weekly Summary -->
-    <p class="text-sm text-gray-400 mt-2">This week: 13.5 hrs</p>
+    @if($wakatimeData)
+        @php
+            $totalHours = round($wakatimeData['data'][0]['grand_total']['total_seconds'] / 3600, 1);
+            $weeklyHours = round($wakatimeData['data'][0]['grand_total']['total_seconds'] / 3600, 1); // Replace with actual weekly total if available
+            $progress = min(100, ($weeklyHours / 40) * 100); // Assume 40 hours/week target
+        @endphp
+        
+        <!-- Total Hours -->
+        <p class="text-xl font-bold mt-2">{{ $totalHours }} hrs</p>
+        
+        <!-- Weekly Progress Bar -->
+        <div class="w-full bg-gray-700 rounded-full h-2.5 mt-4">
+            <div class="bg-blue-500 h-2.5 rounded-full" style="width: {{ $progress }}%;"></div>
+        </div>
+        
+        <!-- Weekly Summary -->
+        <p class="text-sm text-gray-400 mt-2">This week: {{ $weeklyHours }} hrs</p>
+    @else
+        <p class="text-red-500 mt-2">Failed to fetch data</p>
+    @endif
 </div>

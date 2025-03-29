@@ -23,9 +23,6 @@
         </button>
     </div>
 
-
-
-    <!-- WakaTime Card -->
     <div class="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-80 flex flex-col items-center text-center">
         <img src="https://wakatime.com/static/img/wakatime-logo.svg" alt="WakaTime Logo" class="w-24 mb-3">
         <h2 class="text-lg font-semibold">Connect to WakaTime</h2>
@@ -34,7 +31,8 @@
             Connect WakaTime
         </button>
     </div>
-
+        @include('component.codinghours-card')
+        @include('component.codingstreat-card')
 @endsection
 
       
